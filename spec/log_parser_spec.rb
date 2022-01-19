@@ -1,7 +1,7 @@
 require_relative '../components/log_parser'
 
-describe 'LogParser' do
-  it 'test if first line is correct' do
+describe '#open_file' do
+  it 'check first line' do
     file_path = "src/games.log"
 
     file = LogParser.new(file_path)
@@ -10,7 +10,7 @@ describe 'LogParser' do
     expect(first_log_line).to eq(first_expected_line)
   end  
 
-  it 'test if error raise when file does not exist' do
+  it 'raise error when file not valid' do
     file_path = "src/games2.log"
     err_message = "Arquivo não encontrado em: #{file_path}"
     file = LogParser.new(file_path)

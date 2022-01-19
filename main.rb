@@ -1,6 +1,9 @@
 require_relative "./components/log_parser"
+require_relative "./components/handling_functions"
 
 file_path = "src/games.log"
 
 file = LogParser.new(file_path)
-puts file.open_file[0]
+log_file = file.open_file
+
+print_first_line(log_file)

@@ -14,8 +14,8 @@ class LogParser
     file.close
   end
 
-  def print_first_line
-    puts @file_str[0]
+  def get_first_line
+    @file_str[0]
   end
 
 end

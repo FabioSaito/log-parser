@@ -5,6 +5,4 @@ file_path = "src/games.log"
 
 file_obj = LogParser.new(file_path)
 file_obj.load_data
-file_obj.print_first_line
-
-#print_first_line(log_file)
+puts file_obj.get_first_line

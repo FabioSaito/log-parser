@@ -15,6 +15,7 @@ class LogParser
   end
 
   def get_first_line
+    load_data if @file_str == ""
     @file_str[0]
   end
 

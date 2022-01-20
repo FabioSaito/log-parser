@@ -1,20 +1,17 @@
 require_relative '../components/log_parser'
 
-describe '#open_file' do
+describe '#get_first_line' do
   it 'check first line' do
-    file_path = "src/games.log"
-
-    file = LogParser.new(file_path)
-    first_log_line = file.open_file[0]
+    file_path = "./spec/fixtures/files/games_test.log"
     first_expected_line = "  0:00 ------------------------------------------------------------"
-    expect(first_log_line).to eq(first_expected_line)
+    expect(LogParser.new(file_path).get_first_line).to eq(first_expected_line)
   end  
+end  
 
-  it 'raise error when file not valid' do
-    file_path = "src/games2.log"
+describe '#initialize' do
+  it 'raise error when invalid file' do
+    file_path = "./spec/fixtures/files/games2.log"
     err_message = "Arquivo não encontrado em: #{file_path}"
-    file = LogParser.new(file_path)
-    expect{file.open_file}.to raise_error(err_message)
+    expect{LogParser.new(file_path)}.to raise_error(err_message)
   end
-
 end  

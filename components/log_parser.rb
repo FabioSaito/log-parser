@@ -1,14 +1,14 @@
 require "json"
+
 class LogParser
   def initialize(file_path)
     if File.exists?(file_path)
       @file_path = file_path
       @file_str = ""
-      @file_lines = -1
       file = File.open(@file_path)
       @file_str = file.readlines.map(&:chomp)
       file.close
-      count_file_lines
+      @file_lines = @file_str.count
     else
       raise "Arquivo não encontrado em: #{file_path}"
     end
@@ -19,16 +19,8 @@ class LogParser
     @file_str[0]
   end
 
-  def count_file_lines
-    count_lines = 0
-    @file_str.each do |line|
-      count_lines += 1
-    end
-    @file_lines = count_lines
-  end
-
   def format_to_json
     file_to_json = {:lines => @file_lines}
-    "#{@file_path}: #{JSON.pretty_generate(file_to_json)}"
+    JSON.pretty_generate(@file_path => { lines: @file_lines })
   end
 end

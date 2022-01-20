@@ -21,7 +21,7 @@ describe LogParser do
   describe '#format_to_json' do
     it 'verify json file' do
       file_path = "./spec/fixtures/files/games_test.log"
-      expected_json = "./spec/fixtures/files/games_test.log: #{JSON.pretty_generate({:lines => 100})}"
+      expected_json = JSON.pretty_generate(file_path => { lines: 100 })
       expect(LogParser.new(file_path).format_to_json).to eq(expected_json)
     end
   end

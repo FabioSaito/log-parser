@@ -27,9 +27,8 @@ class LogParser
     @file_lines = count_lines
   end
 
-  def print_file_json
-    file_to_json = {:lines => @file_lines}.to_json
-    puts "#{@file_path}: #{JSON.pretty_generate(JSON.parse(file_to_json))}"
+  def format_to_json
+    file_to_json = {:lines => @file_lines}
+    "#{@file_path}: #{JSON.pretty_generate(file_to_json)}"
   end
-
 end

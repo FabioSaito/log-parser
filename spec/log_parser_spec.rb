@@ -1,4 +1,6 @@
 require_relative '../components/log_parser'
+require "json"
+
 describe LogParser do
   describe '#get_first_line' do
     it 'check first line' do
@@ -16,11 +18,11 @@ describe LogParser do
     end
   end
   
-  # test if the returned value is greater than 0, because @file_lines is initially -1
-  describe '#count_file_lines' do
-    it 'verify if number of lines is greater than 0' do
+  describe '#format_to_json' do
+    it 'verify json file' do
       file_path = "./spec/fixtures/files/games_test.log"
-      expect(LogParser.new(file_path).count_file_lines).to be > 0
+      expected_json = "./spec/fixtures/files/games_test.log: #{JSON.pretty_generate({:lines => 100})}"
+      expect(LogParser.new(file_path).format_to_json).to eq(expected_json)
     end
   end
 end

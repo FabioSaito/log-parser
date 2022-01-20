@@ -14,5 +14,13 @@ describe LogParser do
       err_message = "Arquivo não encontrado em: #{file_path}"
       expect{LogParser.new(file_path)}.to raise_error(err_message)
     end
-  end  
+  end
+  
+  # test if the returned value is greater than 0, because @file_lines is initially -1
+  describe '#count_file_lines' do
+    it 'verify if number of lines is greater than 0' do
+      file_path = "./spec/fixtures/files/games_test.log"
+      expect(LogParser.new(file_path).count_file_lines).to be > 0
+    end
+  end
 end

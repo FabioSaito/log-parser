@@ -12,4 +12,4 @@ puts file_obj.get_first_line
 
 # [Tarefa 3 - Imprimir jogadores]
 puts "\n[Lista de jogadores:]"
-puts file_obj.output.strip
+puts file_obj.output

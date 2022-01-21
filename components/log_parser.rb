@@ -1,5 +1,4 @@
 require "json"
-require 'set'
 
 class LogParser
   def initialize(file_path)

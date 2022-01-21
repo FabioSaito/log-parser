@@ -1,3 +1,5 @@
+require "json"
+
 class LogParser
   def initialize(file_path)
     if File.exists?(file_path)
@@ -12,7 +14,16 @@ class LogParser
   end
 
   def get_first_line
-    load_data if @file_str == ""
     @file_str[0]
+  end
+
+  def output
+    JSON.pretty_generate(@file_path => { lines: count_file_lines })
+  end
+
+  private
+  
+  def count_file_lines
+    @file_str.count
   end
 end

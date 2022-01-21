@@ -8,7 +8,6 @@ class LogParser
       file = File.open(@file_path)
       @file_str = file.readlines.map(&:chomp)
       file.close
-      @file_lines = @file_str.count
     else
       raise "Arquivo não encontrado em: #{file_path}"
     end
@@ -17,9 +16,12 @@ class LogParser
   def get_first_line
     @file_str[0]
   end
+  
+  def count_file_lines
+    @file_str.count
+  end
 
-  def format_to_json
-    file_to_json = {:lines => @file_lines}
-    JSON.pretty_generate(@file_path => { lines: @file_lines })
+  def output
+    JSON.pretty_generate(@file_path => { lines: count_file_lines })
   end
 end

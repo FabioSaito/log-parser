@@ -10,4 +10,4 @@ puts file_obj.get_first_line
 
 # --- Tarefa 2 ---
 puts "\n[Tarefa 2 - Imprimir json conforme modelo]"
-puts file_obj.format_to_json
+puts file_obj.output

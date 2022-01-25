@@ -1,5 +1,3 @@
-require 'simplecov'
-SimpleCov.start
 require_relative '../components/log_parser'
 require 'json'
 

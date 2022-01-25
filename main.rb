@@ -11,5 +11,6 @@ puts file_obj.get_first_line
 # [Tarefa 2 - Imprimir número de linhas]
 
 # [Tarefa 3 - Imprimir jogadores]
-puts "\n[Lista de jogadores:]"
+
+# [Tarefa 4 - Imprimir lista de jogadores e kills]"
 puts file_obj.output

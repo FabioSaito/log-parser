@@ -1,5 +1,5 @@
 require_relative '../components/log_parser'
-require "json"
+require 'json'
 
 describe LogParser do
   describe '#get_first_line' do
@@ -21,7 +21,12 @@ describe LogParser do
   describe '#output' do
     it 'checks if output is according to specifications' do
       file_path = "./spec/fixtures/files/games_test.log"
-      expected_json = JSON.pretty_generate(file_path => { lines: 100, players: ["Isgalamido", "<world>", "Dono da Bola", "Mocinha"] })
+      expected_json = JSON.pretty_generate(
+        file_path => { lines: 100, 
+          players: ['Isgalamido', 'Dono da Bola', 'Mocinha', '<world>'], 
+          kills: {'<world>': 8, Isgalamido: 3, 'Dono da Bola': 0, Mocinha: 0}, 
+          total_kills: 11 }
+        )
       expect(LogParser.new(file_path).output).to eq(expected_json)
     end
   end

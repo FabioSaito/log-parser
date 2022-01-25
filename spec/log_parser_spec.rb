@@ -21,8 +21,9 @@ describe LogParser do
   describe '#output' do
     it 'checks if output is according to specifications' do
       file_path = "./spec/fixtures/files/games_test.log"
-      expected_json = JSON.pretty_generate(file_path => { lines: 100 })
+      expected_json = JSON.pretty_generate(file_path => { lines: 100, players: ["Isgalamido", "<world>", "Dono da Bola", "Mocinha"] })
       expect(LogParser.new(file_path).output).to eq(expected_json)
     end
   end
+
 end

@@ -18,7 +18,7 @@ class LogParser
   end
 
   def output
-    JSON.pretty_generate(@file_path => { lines: count_file_lines })
+    JSON.pretty_generate(@file_path => { lines: count_file_lines, players: get_players })
   end
 
   private
@@ -26,4 +26,21 @@ class LogParser
   def count_file_lines
     @file_str.count
   end
+
+  def get_players
+    temp_array = []
+    @file_str.each do |line|
+      game_event =  line.split(" ")[1]
+      case game_event
+      when "ClientUserinfoChanged:"
+        temp_array.push(line.match(/n\\(.*?)\\t/).captures[0])
+
+      when "Kill:"
+        temp_array.push(line.match(/\d+ \d+ \d+\: (.*?) killed/).captures[0])
+        temp_array.push(line.match(/killed (.*?) by/).captures[0]) 
+      end
+    end
+    temp_array.uniq
+  end
+
 end

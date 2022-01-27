@@ -1,4 +1,11 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
+
+# Ruby Version
 ruby '3.1.0'
 
-gem "rspec"
+# Gems
+gem 'rspec'
+gem 'rubocop', require: false
+group :test do
+  gem 'simplecov', require: false
+end

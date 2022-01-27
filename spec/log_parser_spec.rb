@@ -1,5 +1,5 @@
 require_relative '../components/log_parser'
-require "json"
+require 'json'
 
 describe LogParser do
   describe '#get_first_line' do

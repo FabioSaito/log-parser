@@ -23,7 +23,13 @@ class LogParser
 
   def output
     process_score
-    JSON.pretty_generate(@file_path => { lines: count_file_lines, players: @players, kills: @kills, total_kills: @killers_log.count})
+    JSON.pretty_generate(
+      @file_path => { 
+        lines: count_file_lines, 
+        players: @players, 
+        kills: @kills, 
+        total_kills: @kills.inject(0) {|sum, value| sum +=value[1]}
+        })
   end
 
   private
@@ -53,22 +59,34 @@ class LogParser
   def get_kills
     # map killers_log to count player kills
     @killers_log.each do |killer|
-      unless @kills.key?(killer)
-        @kills[killer] = 1
+      case killer
+      when "<world>"
+        next
       else
-        @kills[killer] += 1
+        unless @kills.key?(killer)
+          @kills[killer] = 1
+        else
+          @kills[killer] += 1
+        end
       end
     end
+  end
 
-    # map all players to include players who don't scored
+  def post_process_kills
+    # map all @players to include players who don't scored
     @players.each do |player|
       @kills[player] = 0 unless @kills.key?(player)
     end
+
+    # remove <world> from arrays
+    @players.delete("<world>")
+    @kills.delete("<world>")
   end
 
   def process_score
     get_players
     get_kills
+    post_process_kills
   end
 
 end

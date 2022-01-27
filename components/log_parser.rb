@@ -1,4 +1,4 @@
-require "json"
+require 'json'
 
 class LogParser
   def initialize(file_path)
@@ -11,6 +11,10 @@ class LogParser
     else
       raise "Arquivo não encontrado em: #{file_path}"
     end
+    @kills = {}
+    @players = []
+    @killers_log = []
+    @victims_log = []
   end
 
   def get_first_line
@@ -18,7 +22,14 @@ class LogParser
   end
 
   def output
-    JSON.pretty_generate(@file_path => { lines: count_file_lines, players: get_players })
+    process_score
+    JSON.pretty_generate(
+      @file_path => { 
+        lines: count_file_lines, 
+        players: @players, 
+        kills: @kills, 
+        total_kills: @kills.inject(0) {|sum, value| sum +=value[1]}
+        })
   end
 
   private
@@ -28,19 +39,54 @@ class LogParser
   end
 
   def get_players
-    temp_array = []
     @file_str.each do |line|
       game_event =  line.split(" ")[1]
       case game_event
       when "ClientUserinfoChanged:"
-        temp_array.push(line.match(/n\\(.*?)\\t/).captures[0])
+        @players.push(line.match(/n\\(.*?)\\t/).captures[0])
 
       when "Kill:"
-        temp_array.push(line.match(/\d+ \d+ \d+\: (.*?) killed/).captures[0])
-        temp_array.push(line.match(/killed (.*?) by/).captures[0]) 
+        killer_player = line.match(/\d+ \d+ \d+\: (.*?) killed/).captures[0]
+        victim_player = line.match(/killed (.*?) by/).captures[0]
+
+        @killers_log.push(killer_player)
+        @victims_log.push(victim_player) 
       end
     end
-    temp_array.uniq
+    @players = (@players + @killers_log + @victims_log).uniq
+  end
+
+  def get_kills
+    # map killers_log to count player kills
+    @killers_log.each do |killer|
+      case killer
+      when "<world>"
+        next
+      else
+        unless @kills.key?(killer)
+          @kills[killer] = 1
+        else
+          @kills[killer] += 1
+        end
+      end
+    end
+  end
+
+  def post_process_kills
+    # map all @players to include players who don't scored
+    @players.each do |player|
+      @kills[player] = 0 unless @kills.key?(player)
+    end
+
+    # remove <world> from arrays
+    @players.delete("<world>")
+    @kills.delete("<world>")
+  end
+
+  def process_score
+    get_players
+    get_kills
+    post_process_kills
   end
 
 end
